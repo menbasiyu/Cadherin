@@ -30,12 +30,16 @@ public class Main {
 
         for (int i = 0; i <= nOfCad_1; i++) {
             // initiate the position of each cadherin randomly
-            double[] ini_position = {Math.random()*domainSize, Math.random()*domainSize, zCad_1};
+            double x = -domainSize / 2 + Math.random()*domainSize;
+            double y = -domainSize / 2 + Math.random()*domainSize;
+            double[] ini_position = {x, y, zCad_1};
             Cadherin_1.add(new Cadherin(ini_position, frictional));
         }
 
         for (int i = 0; i <= nOfCad_2; i++) {
-            double[] ini_position = {Math.random()*domainSize, Math.random()*domainSize, zCad_2};
+            double x = -domainSize / 2 + Math.random()*domainSize;
+            double y = -domainSize / 2 + Math.random()*domainSize;
+            double[] ini_position = {x, y, zCad_2};
             Cadherin_2.add(new Cadherin(ini_position, frictional));
         }
     }
