@@ -1,6 +1,7 @@
 package com.company;
 
 import java.io.FileWriter; // to write the results to the file
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -13,6 +14,27 @@ import java.util.Random;
 
 public class Main {
 
+    // function to simulate
+    public void simulate(ArrayList<Cadherin> cadList, double totalTime, double timestep, String nameofFile) {
+        int size = cadList.size();
+        int count = 0;
+        int index;
+        String path = "./" + nameofFile + ".txt";
+        try {
+            FileWriter fw = new FileWriter(path, true);
+            // todo: here add the code to print out the result in the file.
+        } catch (IOException ioe) {
+            System.err.println("IOExceoption: " + ioe.getMessage());
+        }
+
+        for (int i = 0; i <= (int) (totalTime / timestep); i++) {
+            for (Cadherin cad: cadList) {
+                index = count % size;
+
+            }
+        }
+    }
+
     public static void main(String[] args) {
         // first test can we generate these cadherin objects
         double temperature = 300;// unit: Kelvin
@@ -20,8 +42,8 @@ public class Main {
         double timestep = 0.0001;
         double zCad_1 = 0;
         double zCad_2 = 0.02; // if we use 20 nm then this value should be 0.02 um
-        double nOfCad_1 = 10; // assumption at this stage
-        double nOfCad_2 = 10;
+        int nOfCad_1 = 10; // assumption at this stage
+        int nOfCad_2 = 10;
         // here I assume the both side have the same frictional coefficient
         double frictional = 1.37e-3; // unit: pN*s/um = kT / D; D = 3 um^2/s;
 
