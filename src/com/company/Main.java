@@ -56,6 +56,30 @@ public class Main {
         }
     }
 
+    public static double distance(Cadherin cad1, Cadherin cad2) {
+        return Math.sqrt(Math.pow(cad1.getBead_position()[0]-cad2.getBead_position()[0],2) +
+                Math.pow(cad1.getBead_position()[1]-cad2.getBead_position()[1],2));
+    }
+
+    // function to simulate the force interaction between two layers
+    public static void interaction(ArrayList<Cadherin> cadList_1, ArrayList<Cadherin> cadList_2) {
+        // todo: implement the distance function to decide it is bounded or not
+        // todo: implement the force interaction and figure out the relationship between steps
+        for (Cadherin cad1 : cadList_1) {
+            if (cad1.getBoundCadYN() == 0) {
+                for (Cadherin cad2: cadList_2) {
+                    if (cad2.getBoundCadYN() == 0) {
+                        double dist = distance(cad1, cad2); // calculate the distance
+                        if (dist <= 0.02520) {
+                            cad1.setBoundCadYN(1);
+                            cad2.setBoundCadYN(1);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) {
         // first test can we generate these cadherin objects
         double temperature = 300;// unit: Kelvin
@@ -70,7 +94,8 @@ public class Main {
         int nOfCad_1 = 21; // assumption at this stage
         int nOfCad_2 = 21;
         // here I assume the both side have the same frictional coefficient
-        double frictional = 1.37e-3; // unit: pN*s/um = kT / D; D = 3 um^2/s need to adjust the value!; check the unit!
+        double frictional = 1.37e-3; // unit: pN*s/um = kT / D; D = 3 um^2/s need to adjust the value!;
+        double frictional_2 = 0.1469; // unit: pN*s/um with D = 28e-3 um^2/s
         String filename_1 = "cad1_4";
         String filename_2 = "cad2_4";
 

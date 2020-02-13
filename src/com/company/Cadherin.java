@@ -8,6 +8,7 @@ import java.util.*;
  * retrograde flow as a plan for the future
  * Basically, we describe the feature of cadherin in the space and time.
  * @author yangchen
+ * todo: Should implement the bead_force / boundary force change with a scale factor between 0~1 when BoundCadYN = 1
  */
 
 public class Cadherin {
@@ -87,6 +88,9 @@ public class Cadherin {
         move(dt);
     }
 
+    // set the value of the BoundYN
+    public void setBoundCadYN(int value) { this.BoundCadYN = value; }
+
     // get the bead_position for the user
     public double[] getBead_position() {
         return this.bead_position;
@@ -98,4 +102,7 @@ public class Cadherin {
     }
 
     public double[] getRef_position() {return this.ref_position; }
+
+    // get the value of the BoundYN
+    public int getBoundCadYN() { return this.BoundCadYN; }
 }
