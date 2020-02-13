@@ -14,6 +14,7 @@ public class Cadherin {
     // instance variables
     private double time = 0.0;
     private double [] bead_position;
+    private double [] ref_position;
     private double [] bead_force; // here I assume the force only change at x, y plane
     private double frictional; // frictional coefficient, D = (1/frictional) * kT
     //private double zCad; // the position of surface, at this stage, I assume zCad would not change
@@ -28,6 +29,7 @@ public class Cadherin {
 
     // to initiate the Cadherin with the most important features
     public Cadherin(double [] ini_position, double frictional) {
+        this.ref_position = ini_position.clone();
         this.bead_position = ini_position.clone();
         this.frictional = frictional;
     }
@@ -94,4 +96,6 @@ public class Cadherin {
     public double getTime() {
         return this.time;
     }
+
+    public double[] getRef_position() {return this.ref_position; }
 }
