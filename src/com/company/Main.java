@@ -44,7 +44,8 @@ public class Main {
                     fs = String.format("Cadherin " + index + "  %6.4f" + "    %6.4f" + "    %6.4f" +  "    %6.4f" +
                                     "\n", cad.getTime(), cad.getBead_position()[0], cad.getBead_position()[1], msdisp);
                     fw.write(fs);
-                    cad.step(temperature, timestep, domainSize);
+                    //cad.step(temperature, timestep, domainSize);
+                    cad.step_2(timestep, domainSize);
                     count++;
                 }
                 fw2.write(String.format("%6.4f \n", Math.sqrt(totaldisp / size)));
@@ -94,10 +95,10 @@ public class Main {
         int nOfCad_1 = 21; // assumption at this stage
         int nOfCad_2 = 21;
         // here I assume the both side have the same frictional coefficient
-        double frictional = 1.37e-3; // unit: pN*s/um = kT / D; D = 3 um^2/s need to adjust the value!;
+        //double frictional = 1.37e-3; // unit: pN*s/um = kT / D; D = 3 um^2/s need to adjust the value!;
         double frictional_2 = 0.1469; // unit: pN*s/um with D = 28e-3 um^2/s
-        String filename_1 = "cad1_4";
-        String filename_2 = "cad2_4";
+        String filename_1 = "cad1_2";
+        String filename_2 = "cad2_2";
 
         // generate the Arraylist for Cadherin layer 1 and 2
         ArrayList<Cadherin> Cadherin_1 = new ArrayList<Cadherin>();
@@ -105,24 +106,25 @@ public class Main {
 
         for (int i = 0; i < nOfCad_1; i++) {
             // initiate the position of each cadherin randomly
-            double x = -domainSize / 2 + Math.random() * domainSize;
-            double y = -domainSize / 2 + Math.random() * domainSize;
-            double[] ini_position = {x, y, zCad_1};
-            Cadherin_1.add(new Cadherin(ini_position, frictional));
+            //double x = -domainSize / 2 + Math.random() * domainSize;
+            //double y = -domainSize / 2 + Math.random() * domainSize;
+            //double[] ini_position = {x, y, zCad_1};
+            double[] ini_position = {0,0,zCad_1};
+            Cadherin_1.add(new Cadherin(ini_position, frictional_2));
         }
 
         for (int i = 0; i < nOfCad_2; i++) {
             double x = -domainSize / 2 + Math.random() * domainSize;
             double y = -domainSize / 2 + Math.random() * domainSize;
             double[] ini_position = {x, y, zCad_2};
-            Cadherin_2.add(new Cadherin(ini_position, frictional));
+            Cadherin_2.add(new Cadherin(ini_position, frictional_2));
         }
 
 
         System.out.println("Start simulation:");
-        System.out.printf("Simulate with timestep %8.6f: \n", timestep_3);
-        simulate(Cadherin_1, totalTime, timestep_4, filename_1, temperature, domainSize); // simulate the first cadlist
-        simulate(Cadherin_2, totalTime, timestep_4, filename_2, temperature, domainSize); // simulate the second cadlist
+        System.out.printf("Simulate with timestep %8.6f: \n", timestep_2);
+        simulate(Cadherin_1, totalTime, timestep_2, filename_1, temperature, domainSize); // simulate the first cadlist
+        simulate(Cadherin_2, totalTime, timestep_2, filename_2, temperature, domainSize); // simulate the second cadlist
         System.out.println("Finished!");
     }
 }

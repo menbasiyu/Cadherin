@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.*;
+import java.lang.Math; // to get the constant value pi
 
 /**
  * This module is the first version cadherin object with corresponding features
@@ -18,6 +19,7 @@ public class Cadherin {
     private double [] ref_position;
     private double [] bead_force; // here I assume the force only change at x, y plane
     private double frictional; // frictional coefficient, D = (1/frictional) * kT
+    private double diffusion = 28e-3;  // to test this.
     //private double zCad; // the position of surface, at this stage, I assume zCad would not change
 
     // rest useful instance variables for evaluation
@@ -46,6 +48,15 @@ public class Cadherin {
         bead_force[0] += thermal_force*rand.nextGaussian();
         bead_force[1] += thermal_force*rand.nextGaussian();
         // here I don't consider the thermal force in the z direction yet.
+    }
+
+    public void step_2(double dt, double domainSize) {
+        double theta = Math.PI + 2*Math.PI*Math.random();  // get a random direction
+        double distance = Math.sqrt(4*diffusion*dt);
+        this.time += dt;
+        boundary_force_update(domainSize);
+        bead_position[0] += distance*Math.cos(theta);
+        bead_position[1] += distance*Math.sin(theta);  // to update the location!
     }
 
     //private void flow_force_update() {bead_force[1] += frictional * V} if necessary
