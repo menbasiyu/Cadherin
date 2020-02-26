@@ -20,10 +20,10 @@ public class Main {
         return Math.pow(curr_pos[0] - ref_pos[0], 2) + Math.pow(curr_pos[1] - ref_pos[1],2);
     }
 
-    // function to simulate
-    public static void simulate(ArrayList<Cadherin> cadList, double totalTime, double timestep, String nameofFile,
-                         double temperature, double domainSize) {
-        int size = cadList.size();
+    // function to simulate the binding between two layers
+    public static void simulate(ArrayList<Cadherin> cadList1, ArrayList<Cadherin> cadList_2, double totalTime,
+                                double timestep, String nameofFile, double temperature, double domainSize) {
+        int size = cadList1.size();
         int count = 0;
         int index = 0;
         double msdisp; // record the displacement at each timestep of each cadherin
