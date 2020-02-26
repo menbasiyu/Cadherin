@@ -44,8 +44,8 @@ public class Main {
                     fs = String.format("Cadherin " + index + "  %6.4f" + "    %6.4f" + "    %6.4f" +  "    %6.4f" +
                                     "\n", cad.getTime(), cad.getBead_position()[0], cad.getBead_position()[1], msdisp);
                     fw.write(fs);
-                    //cad.step(temperature, timestep, domainSize);
-                    cad.step_2(timestep, domainSize);
+                    cad.step(temperature, timestep, domainSize);
+                    //cad.step_2(timestep, domainSize);
                     count++;
                 }
                 fw2.write(String.format("%6.4f \n", Math.sqrt(totaldisp / size)));
@@ -57,39 +57,16 @@ public class Main {
         }
     }
 
-    public static double distance(Cadherin cad1, Cadherin cad2) {
-        return Math.sqrt(Math.pow(cad1.getBead_position()[0]-cad2.getBead_position()[0],2) +
-                Math.pow(cad1.getBead_position()[1]-cad2.getBead_position()[1],2));
-    }
-
-    // function to simulate the force interaction between two layers
-    public static void interaction(ArrayList<Cadherin> cadList_1, ArrayList<Cadherin> cadList_2) {
-        // todo: implement the distance function to decide it is bounded or not
-        // todo: implement the force interaction and figure out the relationship between steps
-        for (Cadherin cad1 : cadList_1) {
-            if (cad1.getBoundCadYN() == 0) {
-                for (Cadherin cad2: cadList_2) {
-                    if (cad2.getBoundCadYN() == 0) {
-                        double dist = distance(cad1, cad2); // calculate the distance
-                        if (dist <= 0.02520) {
-                            cad1.setBoundCadYN(1);
-                            cad2.setBoundCadYN(1);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     public static void main(String[] args) {
         // first test can we generate these cadherin objects
         double temperature = 300;// unit: Kelvin
         double domainSize = 1; // unit: micrometer
-        double timestep_1 = 1e-6; // us
+        double timestep_1 = 1e-6; // s
         double timestep_2 = 10e-6;
         double timestep_3 = 100e-6;
         double timestep_4 = 1000e-6;
-        double totalTime = 1; // unit: us
+        double timestep_5 = 10000e-6;
+        double totalTime = 1; // unit: s
         double zCad_1 = 0;
         double zCad_2 = 0.02; // if we use 20 nm then this value should be 0.02 um
         int nOfCad_1 = 21; // assumption at this stage
@@ -97,8 +74,8 @@ public class Main {
         // here I assume the both side have the same frictional coefficient
         //double frictional = 1.37e-3; // unit: pN*s/um = kT / D; D = 3 um^2/s need to adjust the value!;
         double frictional_2 = 0.1469; // unit: pN*s/um with D = 28e-3 um^2/s
-        String filename_1 = "cad1_2";
-        String filename_2 = "cad2_2";
+        String filename_1 = "cad1_6";
+        String filename_2 = "cad2_6";
 
         // generate the Arraylist for Cadherin layer 1 and 2
         ArrayList<Cadherin> Cadherin_1 = new ArrayList<Cadherin>();
@@ -122,9 +99,10 @@ public class Main {
 
 
         System.out.println("Start simulation:");
-        System.out.printf("Simulate with timestep %8.6f: \n", timestep_2);
-        simulate(Cadherin_1, totalTime, timestep_2, filename_1, temperature, domainSize); // simulate the first cadlist
-        simulate(Cadherin_2, totalTime, timestep_2, filename_2, temperature, domainSize); // simulate the second cadlist
+        System.out.printf("Simulate with timestep %8.6f: \n", timestep_5);
+        simulate(Cadherin_1, totalTime, timestep_5, filename_1, temperature, domainSize); // simulate the first cadlist
+        simulate(Cadherin_2, totalTime, timestep_5, filename_2, temperature, domainSize); // simulate the second cadlist
         System.out.println("Finished!");
+
     }
 }

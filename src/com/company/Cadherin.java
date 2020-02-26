@@ -21,12 +21,18 @@ public class Cadherin {
     private double frictional; // frictional coefficient, D = (1/frictional) * kT
     private double diffusion = 28e-3;  // to test this.
     //private double zCad; // the position of surface, at this stage, I assume zCad would not change
+    private int state = 0; // to indicate the state of the cadherin, can have three different states, 0-M, 1-X, 2-S
+    // The following will be useful when implement the second version
+    //private double stime_0 = 0.0; // to indicate the time of cadherin in the state 0;
+    //private double stime_1 = 0.0; // to indicate the time of cadherin in the state 1;
+    //private double stime_2 = 0.0; // to indicate the time of cadherin in the state 2;
 
     // rest useful instance variables for evaluation
     // double V; // will be useful when we need the relationship between actin and cadherin
     double kub = 0; // can be private
     // int LigandNum; // I don't think we still need this in the case of cadherin
-    int BoundCadYN = 0; // to indicate whether the cadherin is bound with another cad or not (can be private)
+    private int BoundCadYN = 0; // to indicate whether the cadherin is bound with another cad or not (can be private)
+    private int cadBoundIndex; // the index of bound Cadherin
     int TimesUnbound, contaAT;
     double contaBoundLifetimeTot, FinalLife, finalTension = 0;
 
@@ -102,6 +108,12 @@ public class Cadherin {
     // set the value of the BoundYN
     public void setBoundCadYN(int value) { this.BoundCadYN = value; }
 
+    // set the value of the cadBoundIndex
+    public void setCadBoundIndex(int value) { this.cadBoundIndex = value; }
+
+    // set the value of the state of the Cadherin
+    public void setState(int value) { this.state = value; }
+
     // get the bead_position for the user
     public double[] getBead_position() {
         return this.bead_position;
@@ -116,4 +128,7 @@ public class Cadherin {
 
     // get the value of the BoundYN
     public int getBoundCadYN() { return this.BoundCadYN; }
+
+    // get the index of bounded cadherin
+    public int getCadBoundIndex() { return this.cadBoundIndex; }
 }
