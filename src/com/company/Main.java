@@ -21,7 +21,45 @@ public class Main {
     }
 
     // function to simulate the binding between two layers
-    public static void simulate(ArrayList<Cadherin> cadList1, ArrayList<Cadherin> cadList_2, double totalTime,
+    public static void simulate(ArrayList<Cadherin> cadList1, ArrayList<Cadherin> cadList2, double totalTime,
+                                Force_Interaction force_interaction, double timestep, String nameofFile,
+                                double temperature, double domainSize) {
+        int size1 = cadList1.size(); int size2 = cadList2.size();
+        String path = "./" + nameofFile + ".csv";
+        try {
+            FileWriter fw = new FileWriter(path, true);
+            fw.write(String.format("    " + "time" + "," + "state" + "," + "force" + "\n"));
+            // simulate through
+            for (int i = 0; i <= (int)(totalTime/timestep); i++) {
+                // step 1: do the thermal and boundary update
+                for (Cadherin cad1 : cadList1) {
+                    cad1.step(temperature, timestep, domainSize);
+                }
+
+                for (Cadherin cad2 : cadList2) {
+                    cad2.step(temperature, timestep, domainSize);
+                }
+
+                // step 2: force interaction update
+                force_interaction.interaction();
+
+                // step 3: record the state
+                for (Cadherin cad1 : cadList1) {
+                    fw.write(String.format("1index %d" + "," + "%d\n", cadList1.indexOf(cad1), cad1.getState()));
+                }
+
+                for (Cadherin cad2 : cadList2) {
+                    fw.write(String.format("2index %d" + "," + "%d\n", cadList2.indexOf(cad2), cad2.getState()));
+                }
+            }
+            fw.close();
+        } catch (IOException ioe) {
+            System.err.println("IOException: " + ioe.getMessage());
+        }
+    }
+
+    /**
+    public static void simulate(ArrayList<Cadherin> cadList, double totalTime,
                                 double timestep, String nameofFile, double temperature, double domainSize) {
         int size = cadList1.size();
         int count = 0;
@@ -55,7 +93,7 @@ public class Main {
         } catch (IOException ioe) {
             System.err.println("IOExceoption: " + ioe.getMessage());
         }
-    }
+    }*/
 
     public static void main(String[] args) {
         // first test can we generate these cadherin objects
@@ -83,10 +121,10 @@ public class Main {
 
         for (int i = 0; i < nOfCad_1; i++) {
             // initiate the position of each cadherin randomly
-            //double x = -domainSize / 2 + Math.random() * domainSize;
-            //double y = -domainSize / 2 + Math.random() * domainSize;
-            //double[] ini_position = {x, y, zCad_1};
-            double[] ini_position = {0,0,zCad_1};
+            double x = -domainSize / 2 + Math.random() * domainSize;
+            double y = -domainSize / 2 + Math.random() * domainSize;
+            double[] ini_position = {x, y, zCad_1};
+            //double[] ini_position = {0,0,zCad_1}; // start at the origin
             Cadherin_1.add(new Cadherin(ini_position, frictional_2));
         }
 
@@ -97,12 +135,20 @@ public class Main {
             Cadherin_2.add(new Cadherin(ini_position, frictional_2));
         }
 
+        Force_Interaction force_interaction = new Force_Interaction(Cadherin_1, Cadherin_2, timestep_2);
 
+        // simulate Brownian Motion
+        /**
         System.out.println("Start simulation:");
         System.out.printf("Simulate with timestep %8.6f: \n", timestep_5);
         simulate(Cadherin_1, totalTime, timestep_5, filename_1, temperature, domainSize); // simulate the first cadlist
         simulate(Cadherin_2, totalTime, timestep_5, filename_2, temperature, domainSize); // simulate the second cadlist
-        System.out.println("Finished!");
+        System.out.println("Finished!");*/
 
+        // simulate the two layer force interaction
+        System.out.println("Start simulation:");
+        System.out.printf("Simulate with time step: %8.6f\n", timestep_2);
+        simulate(Cadherin_1, Cadherin_2, totalTime, force_interaction, timestep_2, "test", temperature, domainSize);
+        System.out.println("Finished!!!");
     }
 }
