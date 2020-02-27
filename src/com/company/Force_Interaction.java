@@ -45,7 +45,7 @@ public class Force_Interaction {
     public void interaction() {
         // todo: implement the distance function to decide it is bounded or not
         // todo: implement the force interaction and figure out the relationship between steps
-        double cutoff = 0.015; // unit: micrometers, use the 15 nm as the cutoff distance
+        double cutoff = 0.1; // unit: micrometers, use the 15 nm as the cutoff distance
         double cutoff_2 = 0.001; // unit: micrometers
 
         // all kinetic rate constant regarding the transition between different states
@@ -65,7 +65,7 @@ public class Force_Interaction {
         double p_bxs = k_bxs * timestep;
 
         // the spring constant we use to calculate the force when binding state is 1 (X)
-        double k_it = 2e3; // unit: 2pn/um
+        double k_it = 2e3; // unit: 2pn/um (ref!!)
 
         // After the update of corresponding state thermal diffusion and domain-diffusion
         // Here, consider the kinetic interaction for different states
@@ -91,7 +91,7 @@ public class Force_Interaction {
                             cad2.setCadBoundIndex(cadList_1.indexOf(cad1)); // actually there is no need for this line
 
                             // update the position of the cadherin
-                            cad1.bound_force_update(timestep);
+                            cad1.bound_force_update(timestep); // todo: double-check
                             cad2.bound_force_update(timestep);
 
                             // break the inner for loop (which indicate the form of binding between two layers)
@@ -103,7 +103,7 @@ public class Force_Interaction {
                             cad1.setState(2); cad2.setState(2);
                             cad1.setCadBoundIndex(cadList_2.indexOf(cad2));
                             cad2.setCadBoundIndex(cadList_1.indexOf(cad1));
-                            cad2.setBead_position(cad1.getBead_position());
+                            cad2.setBead_position(cad1.getBead_position()); // placeholder
 
                             break;
                         }
